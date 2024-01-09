@@ -12,26 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mainApp = void 0;
-const userRouter_1 = __importDefault(require("./router/userRouter"));
-const mainApp = (app) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createUser = void 0;
+const userModel_1 = __importDefault(require("../model/userModel"));
+const crypto_1 = __importDefault(require("crypto"));
+const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        app.use("/api/v1", userRouter_1.default);
-        app.get("/", (req, res) => {
-            try {
-                res.status(200).json({
-                    message: "Welcome to my production api",
-                });
-            }
-            catch (error) {
-                res.status(404).json({
-                    message: "Error fetching default message",
-                });
-            }
+        const { email } = req.body;
+        const token = crypto_1.default.randomBytes(3).toString("hex");
+        const enrollmentID = crypto_1.default.randomBytes(2).toString("hex");
+        const user = yield userModel_1.default.create({ email, enrollmentID, token });
+        return res.status(404).json({
+            message: "user created..",
+            data: user,
         });
     }
     catch (error) {
-        return error;
+        return res.status(404).json({
+            message: "Error creating user",
+        });
     }
 });
-exports.mainApp = mainApp;
+exports.createUser = createUser;

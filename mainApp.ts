@@ -1,8 +1,8 @@
 import { Application, Request, Response } from "express";
-
+import user from "./router/userRouter";
 export const mainApp = async (app: Application) => {
   try {
-    // app.use("/api/v1");
+    app.use("/api/v1", user);
     app.get("/", (req: Request, res: Response) => {
       try {
         res.status(200).json({
@@ -15,6 +15,6 @@ export const mainApp = async (app: Application) => {
       }
     });
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
