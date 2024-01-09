@@ -1,12 +1,15 @@
 import express, { Application, json } from "express";
 import cors from "cors";
 import { config } from "dotenv";
+import { mainApp } from "./mainApp";
 
 config();
 
 const port: number = parseInt(process.env.PORT!);
 
 const app: Application = express();
+
+mainApp(app);
 
 app.use(express.json());
 app.use(cors());
