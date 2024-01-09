@@ -19,3 +19,34 @@ export const createUser = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const viewOneuser = async (req: Request, res: Response) => {
+  try {
+    const { userID } = req.params;
+
+    const user = await userModel.findById(userID);
+
+    return res.status(404).json({
+      message: "user found..",
+      data: user,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      message: "Error findinf user",
+    });
+  }
+};
+export const viewAlluser = async (req: Request, res: Response) => {
+  try {
+    const user = await userModel.find();
+
+    return res.status(404).json({
+      message: "user found..",
+      data: user,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      message: "Error finding user",
+    });
+  }
+};
